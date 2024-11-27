@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>তোমার জন্য একটি চিঠি</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #fce4d6, #fad0c4);
+        }
+
+        /* Envelope Container */
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Envelope Design */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 240px;
+            background: #ffc0cb;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.6s ease;
+            cursor: pointer;
+        }
+
+        /* Envelope Flap */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #ff99a2;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            transition: transform 0.6s ease;
+            transform-origin: top center;
+        }
+
+        /* Heart Icon */
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: #ff4d6d;
+            clip-path: polygon(50% 0%, 0% 30%, 25% 100%, 50% 85%, 75% 100%, 100% 30%);
+            z-index: 10;
+
+            /* Rotating Heart Animation */
+            animation: rotateHeart 2s infinite ease-in-out;
+        }
+
+        @keyframes rotateHeart {
+            0% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            25% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(10deg);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            75% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(-10deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+        }
+
+        /* Letter Content */
+        .letter {
+            position: absolute;
+            width: 85%;
+            max-width: 260px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.6;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50%);
+            transition: opacity 1s ease, transform 1s ease;
+            font-family: 'Times New Roman', serif;
+            z-index: 100;
+        }
+
+        .letter h2 {
+            font-size: 1.4rem;
+            color: #ff6f91;
+            margin-bottom: 15px;
+
+            /* Adding fade-in animation for the heading */
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .letter p {
+            font-size: 0.95rem;
+            color: #4a4a4a;
+        }
+
+        /* Envelope Opening Animation */
+        .envelope.opened {
+            transform: translateY(-100%);
+        }
+
+        .envelope.opened .flap {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope.opened ~ .letter {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Close Button */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6f91;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .close-button:hover {
+            background: #ff9a8b;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .envelope-container {
+                width: 90%;
+                height: 280px;
+            }
+
+            .envelope {
+                width: 90%;
+                height: 200px;
+            }
+
+            .flap {
+                height: 40%;
+            }
+
+            .heart {
+                width: 50px;
+                height: 50px;
+            }
+
+            .letter {
+                padding: 15px;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+
+            .letter h2 {
+                font-size: 1.2rem;
+            }
+
+            .letter p {
+                font-size: 0.85rem;
+            }
+
+            .close-button {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-container">
+        <!-- Envelope -->
+        <div class="envelope" id="envelope">
+            <div class="flap"></div>
+            <div class="heart" id="heart"></div>
+        </div>
+
+        <!-- Letter -->
+        <div class="letter" id="letter">
+            <h2>তোমার জন্য একটি চিঠি</h2>
+            <p>
+                প্রিয়তমা,<br><br>
+                তোমার প্রেমে আমি অস্থির, তোমার মিষ্টি হাসি আমার জীবনের সবটুকু আলো।<br>
+                আমি চিরকাল তোমার সাথে থাকতে চাই, আমরা একসাথে এই পৃথিবীর অমূল্য রত্ন।<br><br>
+                এই চিঠি তোমার জন্য, যা আমার হৃদয়ের প্রতিটি কণায় লেখা।<br><br>
+                তোমার জন্য,<br><br>
+                জয় ❤️
+            </p>
+            <button class="close-button" onclick="closeEnvelope()">Close</button>
+        </div>
+    </div>
+
+    <audio id="audio" src="1.mp3"></audio>
+
+    <script>
+        const heart = document.getElementById('heart');
+        const envelope = document.getElementById('envelope');
+        const letter = document.getElementById('letter');
+        const audio = document.getElementById('audio');
+
+        // Open envelope when heart is clicked
+        heart.addEventListener('click', () => {
+            envelope.classList.add('opened');
+            audio.play();
+        });
+
+        // Close envelope and letter
+        function closeEnvelope() {
+            envelope.classList.remove('opened');
+            letter.style.opacity = '0';
+            letter.style.transform = 'translateY(50%)';
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    </script>
+</body>
+</html>
